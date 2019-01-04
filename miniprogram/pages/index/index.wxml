@@ -23,7 +23,7 @@
   </view>
 </view>
 <!-- 矩形 -->
-<view class='rectangle'>
+<view class='rectangle' bindtouchstart='touchstart' bindtouchend='touchend' bindtouchmove='touchmove'>
   <view class='row' wx:for="{{row}}" wx:key="index" wx:for-item="cloum">
     <view wx:for="{{cloum}}" wx:for-item="num"  wx:key="index" class='cloum'>
       <view class='cell cell-{{num}}'>{{num}}</view>
