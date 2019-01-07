@@ -1,12 +1,12 @@
 {
   "pages": [
+    "pages/login/login",
     "pages/index/index"
-    
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#F6F6F6",
+    "navigationBarBackgroundColor": "#faf8ee",
     "navigationBarTitleText": "2048",
     "navigationBarTextStyle": "black"
   }

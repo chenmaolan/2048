@@ -1,0 +1,59 @@
+/* miniprogram/pages/login.wxss */
+page{ 
+  background: #faf8ee;
+}
+.num-box{
+  width: 200rpx;
+  margin-top: 50rpx;
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+  border-radius: 50rpx ;
+  border: 10rpx solid #bbada0;
+  
+}
+.num{
+  width: 100rpx;
+  height: 100rpx;
+  line-height: 100rpx;
+  font-size: 60rpx;
+  box-sizing: border-box;
+  color: #fff;
+  font-weight: bold;
+}
+.num-2{
+  border-right: 5rpx solid #bbada0;
+  border-bottom: 5rpx solid #bbada0;
+  border-top-left-radius: 40rpx;
+  background: #eee4da;
+  color: #000;
+}
+.num-0{
+  border-top-right-radius: 40rpx;
+  background: #edcf72;
+  border-left: 5rpx solid#bbada0;
+  border-bottom: 5rpx solid #bbada0;
+}
+.num-4{
+  background: #f65e3b;
+  border-bottom-left-radius: 40rpx;
+  border-right: 5rpx solid #bbada0;
+  border-top: 5rpx solid #bbada0;
+}
+.num-8{
+  background: #f2b179;
+  border-bottom-right-radius: 40rpx;
+  border-left: 5rpx solid #bbada0;
+  border-top: 5rpx solid #bbada0;
+}
+.text-box{
+  margin-top: 350rpx;
+}
+.entry{
+  text-align: center;
+  border: 1rpx solid #ccc;
+  border-radius: 20rpx;
+  height: 100rpx;
+  line-height: 100rpx;
+  margin-bottom: 50rpx;
+}

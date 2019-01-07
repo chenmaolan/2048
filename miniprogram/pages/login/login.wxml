@@ -1,0 +1,14 @@
+<view class='container'>
+  <view class='box'>
+    <view class='num-box'>
+      <view class='num num-2'>2</view>
+      <view class='num num-0'>0</view>
+      <view class='num num-4'>4</view>
+      <view class='num num-8'>8</view>
+    </view>
+  </view>
+  <view class='text-box'>
+    <view class='entry' bindtap='entry'>进入游戏</view>
+    <text class='text'>及时行乐  该玩就玩</text>
+  </view>
+</view>

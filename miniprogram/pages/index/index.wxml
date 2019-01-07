@@ -1,32 +1,34 @@
 <!-- 顶部 -->
-<view class='top-content'>
-  <view class="top-left">
-    <text>2048</text>
-  </view>
-  <view class="top-right">
-    <view class='title-box'>
-      <view class='text-title'>SCORE</view>
-      <view class='score-num'>0</view>
+<view disable-scroll="true">
+  <view class='top-content'>
+    <view class="top-left">
+      <text>2048</text>
     </view>
-    <view class='title-box'>
-      <view class='text-title'>BEST</view>
-      <view class='score-num'>8044</view>
+    <view class="top-right">
+      <view class='title-box'>
+        <view class='text-title'>SCORE</view>
+        <view class='score-num'>{{scroe}}</view>
+      </view>
+      <view class='title-box'>
+        <view class='text-title'>BEST</view>
+        <view class='score-num'>{{best}}</view>
+      </view>
     </view>
   </view>
-</view>
-<!-- 中部 -->
-<view class='middle'>
-  <text class='middle-left'>有事请留言茂茂小仙女</text>
-  <view>
-    <text class='middle-right'>重新开始</text>
-    <text class='iconfont icon-shuaxin'></text>
+  <!-- 中部 -->
+  <view class='middle'>
+    <text class='middle-left'>有事请留言茂茂小仙女</text>
+    <view bindtap='newGame'>
+      <text class='middle-right'>重新开始</text>
+      <text class='iconfont icon-shuaxin'></text>
+    </view>
   </view>
-</view>
-<!-- 矩形 -->
-<view class='rectangle' bindtouchstart='touchstart' bindtouchend='touchend' bindtouchmove='touchmove'>
-  <view class='row' wx:for="{{row}}" wx:key="index" wx:for-item="cloum">
-    <view wx:for="{{cloum}}" wx:for-item="num"  wx:key="index" class='cloum'>
-      <view class='cell cell-{{num}}'>{{num}}</view>
+  <!-- 矩形 -->
+  <view class='rectangle' bindtouchstart='touchstart' bindtouchend='touchend' bindtouchmove='touchmove'>
+    <view class='row' wx:for="{{row}}" wx:key="index" wx:for-item="cloum">
+      <view wx:for="{{cloum}}" wx:for-item="num"  wx:key="index" class='cloum'>
+        <view class='cell cell-{{num}}'>{{num}}</view>
+      </view>
     </view>
   </view>
 </view>

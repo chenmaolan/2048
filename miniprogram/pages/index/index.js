@@ -4,6 +4,8 @@ Page({
    * 页面的初始数据
    */
   data: {
+    score:0,
+    best:0,
     row:[
       // [2,2,2,2],
       // [2,2,2,2],
@@ -14,6 +16,7 @@ Page({
   // 初始化游戏
   init(){
       let arr=[];
+      let heightscore=wx.getStorageSync('best')
       //创建二维数组
       for(let i=0;i<4;i++){
         arr[i]=[];
@@ -23,14 +26,16 @@ Page({
       }
       this.randomFun(arr)
       this.setData({
-        row:arr
+        row:arr,
+        score:0,
+        best:heightscore
       })
   },
   touchstartX:0,//触摸起始
   touchstartY:0,
   touchendX:0,//触摸结束
   touchendY:0,
-  driection:0,//方向 1 上,2 下 ,3 坐,4 右
+  driection:0,//方向 1 上,2 下 ,3 左,4 右
   touchstart(e){//获取触摸起始坐标
     // console.log(e,e.touches[0].clientX);
     let t = e.touches[0];
@@ -53,22 +58,22 @@ Page({
     if(abX > abY && this.touchendX != 0){//横向
       if(x > 0){//向右滑动
         this.driection=4;
-        this.concentrate(arr);
-        console.log(this.driection)
+        arr=this.concentrate(arr);
+        // console.log(this.driection)
       }else if(x < 0){//向左
         this.driection=3;
-        this.concentrate(arr);
-        console.log(this.driection)
+        arr=this.concentrate(arr);
+        // console.log(this.driection)
       }
     }else if(abY > abX && this.touchendY != 0){//纵向 屏幕y坐标为由上向下递增
       if (y > 0) {//向下滑动
         this.driection = 2;
-        this.concentrate(arr);
-        console.log(this.driection)
+        arr=this.concentrate(arr);
+        // console.log(this.driection)
       } else if (y < 0) {//向上
         this.driection = 1;
-        this.concentrate(arr);
-        console.log(this.driection)
+        arr=this.concentrate(arr);
+        // console.log(this.driection)
       }
     }
     this.setData({
@@ -76,27 +81,38 @@ Page({
     })
     // console.log(x,y,this.driection)
   },
+  newGame(){
+    this.scoreStorageSync();//最高分进行缓存
+    this.init();
+    wx.showToast({
+      title: '你行你继续',
+      icon:'loading'
+    })
+  },
   //所有函数统一
   concentrate(arr){
-    console.log(arr)
+    // console.log(arr)
     arr=this.changeArr(arr);//转换方向
-    console.log(arr)
+    // console.log(arr)
     this.mergeNum(arr);//合并相同值
-    console.log(arr)
+    // console.log(arr)
     this.moveNum(arr);//位移
-    console.log(arr)
+    // console.log(arr)
     arr=this.reChange(arr);//转换回去
-    console.log(arr)
+    // console.log(arr)
     this.randomFun(arr);
-    console.log(arr)
+    // console.log(arr)
     if(this.gameOver(arr)){
+      let that=this;
+      that.scoreStorageSync();//最高分进行缓存
       wx.showModal({
-        title: '2048',
-        content: '游戏结束',
+        title: '游戏结束',
+        content: '你的得分是' + that.data.score,
         confirmText:'重新开始',
+        showCancel:false,
         success:function(res){
           if(res.confirm){
-            this.init();
+            that.init();
           }
         }
       })
@@ -105,11 +121,14 @@ Page({
   },
   //相同数值合并
   mergeNum(arr){
+    let addscore=this.data.score;
+    let heightScore=this.data.best;
     for(let i=0;i<4;i++){
       for(let j=0;j<4;j++){
         if(arr[i][j] !== ""){//排除空格
           if((j+1)<4 && arr[i][j]==arr[i][j+1]){
             arr[i][j]+=arr[i][j+1];//相同值相加
+            addscore+=arr[i][j+1];
             arr[i][j+1]="";//相加后重新赋值为空
             j++;//跳过这两个坐标的后面开始,减少循环次数
           }else{
@@ -117,6 +136,7 @@ Page({
               if(arr[i][k]!=""){//排除后面空格
                 if(arr[i][j]==arr[i][k]){
                   arr[i][j]+=arr[i][k];
+                  addscore=arr[i][k];
                   arr[i][k]="";
                   j=k;//跳过已经合并过的位置
                 }else{
@@ -129,7 +149,15 @@ Page({
         } 
       }
     }
-    console.log('me')
+    // console.log('me')
+    this.setData({
+      score:addscore
+    })
+    if(addscore>heightScore){
+      this.setData({
+        best:addscore
+      })
+    }
   },
   //位移 数与数 数与边有空格则按顺序位移
   moveNum(arr){
@@ -144,7 +172,7 @@ Page({
         }
       }
     }
-    console.log('mo')
+    // console.log('mo')
   },
   //将数组根据滑动方向排列数组按照统一方向进行合并与位移再移回原来的位置, 统一向左
   changeArr(arr){
@@ -158,11 +186,11 @@ Page({
         }else if(this.driection==3){//左 原数组不改变
           res[i][j]=arr[i][j]
         }else if(this.driection==4){//右
-          res[i][j]=arr[3-j][i]
+          res[i][j]=arr[i][3-j]
         }
       }
     }
-    console.log('ch')
+    // console.log('ch')
     return res;
   },
   //数组转换回去
@@ -175,13 +203,13 @@ Page({
         }else if(this.driection==2){
           res[i][j] = changeArr[j][3-i]
         }else if(this.driection==3){
-          res[i][j] = changeArr[i][3-j]
-        }else if(this.driection==4){
           res[i][j] = changeArr[i][j]
+        }else if(this.driection==4){
+          res[i][j] = changeArr[i][3-j]
         }
       }
     }
-    console.log('re')
+    // console.log('re')
     return res ;
   },
   //随机数
@@ -200,11 +228,12 @@ Page({
       var currentCell=parseInt(Math.random()*(nNum.length-1));
       cell[nNum[currentCell].i][nNum[currentCell].j]=value;
     }
-    console.log('rd')
+    // console.log('rd')
   },
   // 游戏结束
   gameOver(arr){
     let isOver=true;
+    let that=this;
     for(let i=0;i<4;i++){
       for(let j=0;j<4;j++){
         if (arr[i][j] == "") {//判断是否有空格
@@ -218,14 +247,19 @@ Page({
           if ((j+1)<4 && arr[i][j] == arr[i][j + 1]) {//左右是否相等
             return false
           }
-          if ((j + 1) < 4 && arr[i][j] == arr[i + 1][j]) {//上下是否相等
+          if ((j + 1) < 4 && arr[i][j] == arr[j + 1][i]) {//上下是否相等
             return false
           }
         }
       }
+      // if (that.data.score > that.data.best) {
+      //   wx.showToast({
+      //     title: '又突破最高分' + this.data.best,
+      //   })
+      // }
       return true
     }
-    console.log('ov')
+    // console.log('ov')
     return false
   },
   /**
@@ -234,7 +268,13 @@ Page({
   onLoad: function (options) {
     this.init()
   },
-
+  scoreStorageSync(){//最高分缓存
+    let that=this;
+    let heightscore=that.data.best;
+    try{
+      wx.setStorageSync('best', heightscore);
+    }catch(e){}
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
@@ -253,7 +293,7 @@ Page({
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-    
+    this.scoreStorageSync();//最高分进行缓存
   },
 
   /**
