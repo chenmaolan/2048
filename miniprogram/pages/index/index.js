@@ -13,7 +13,7 @@ Page({
       // [2,2,2,2]
     ]
   },
-  // 初始化游戏
+  // 初始化游戏 
   init(){
       let arr=[];
       let heightscore=wx.getStorageSync('best')
@@ -136,7 +136,7 @@ Page({
               if(arr[i][k]!=""){//排除后面空格
                 if(arr[i][j]==arr[i][k]){
                   arr[i][j]+=arr[i][k];
-                  addscore=arr[i][k];
+                  addscore+=arr[i][k];
                   arr[i][k]="";
                   j=k;//跳过已经合并过的位置
                 }else{
